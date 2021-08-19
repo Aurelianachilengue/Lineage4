@@ -1,40 +1,25 @@
-getwd()
-setwd("C:/Users/User/Documents/Bradford/R_session")
-
-#Loading the file
-AccessoryTable <- read.csv("AccessoryTable.csv", header = T, sep = ",")
-
-# To vizualize the file
-View(AccessoryTable)
-
-#load reshape2 package to use melt() function
-library(reshape2)
-
-#melt AccessoryTable into long format
-melt_AccessoryTable <- melt(AccessoryTable)
-
-#add column for genomes name
-melt_AccessoryTable$Genes <- rep(row.names(AccessoryTable), 8)
-
-#To see the first rows of the table
-head(AccessoryTable)
-
-# Loading the ggplot2 to plot the heatmap
-library(ggplot2)
-
-ggplot(melt_AccessoryTable, aes(variable, Genes)) +
-  geom_tile(aes(fill = value), colour = "white") +
-  scale_fill_gradient(low = "white", high = "red")
-theme(axis.text.y = element_text(angle = 90))
-
-  
-  
-
-  
-
-  
- 
+# Data visualization using ggplot2
 
 
-  
-        
+setwd("C:/Users/User/Documents/Bradford/R_session") # to set working directory
+getwd()  # to see which is our working directory
+Accessory<- read.csv("Accessory.csv", header = T, sep = ",") #reading the file
+head(Accessory)#To see the first rows
+
+
+data=as.matrix(Accessory[2:9]) #Selecting the rowns. as.matrix() function accepts numeric variables only.
+head(data)
+
+heatmap(data)
+
+heatmap(data, scale="column") #scale option will scale variables.
+
+heatmap(data, scale="column", cexCol = 0.75)
+
+# using rcolorbrewer to change the color palette
+library(RColorBrewer)
+heatmap(data, scale="column", cexCol = 0.75, col= colorRampPalette(brewer.pal(8, "Reds"))(25))
+
+
+
+
