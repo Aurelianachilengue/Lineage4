@@ -15,7 +15,7 @@ for g1 in *ffn; do n1=$(basename ${g1} .ffn); for g2 in *ffn;do n2=$(basename ${
 
 for g1 in *.ffn; do n1=$(basename ${g1} .ffn);grep ">" ${g1} | sed 's/>//g' | sed 's/ .*//g' >> ../headers/${g1}_header.txt;done
 
-4.To look for genes that are not found in genome 2
+4.To look for genes present in genome 1 and not in genome 2
 # This command is used to check every single content (line by line) of header file against the blastn output to find the genes that are not present in the blastn output. To run this command first we created temporary folder called "temp", were we copied all the files from header folder and Blastn output.
 for g1 in *header.txt;do n1=$(basename ${g1} _header.txt); echo ${n1};for g2 in ${n1}*blastn.txt;do out=$(basename ${g2} _blastn.txt);for item in `cat ${g1}`;do grep "^"${item}$'\t' ${g2}; if ! [[ $? -eq 0 ]]; then echo ${item} >>../not_found/${out}_notFound.txt;fi;done;done;done
 
@@ -31,11 +31,16 @@ blastn -query CHIN_F1_CHIN_F1_notFound.fasta -db /home/aureliana/Documents/Proje
 
 
 7.To find either pseudogene and deleted in genome 2
-#
 # This command is used to check every single content (line by line) of the not found folder against the blastfna output to find pseudogenes and deleted. To run this command, first, we created a temporary folder called "temp", where we copied all the files from the not found folder and Blastfn output.
 for g1 in *notFound.txt;do n1=$(basename ${g1} _notFound.txt); echo ${n1};for g2 in ${n1}*blastfna.txt;do out=$(basename ${g2} _blastfna.txt);for item in `cat ${g1}`;do grep "^"${item}$'\t' ${g2}; if [[ $? -eq 0 ]]; then echo ${item} >>../pseudogenes/${out}_pseudo;else echo ${item} >>../deleteds/${out}_deleteds;fi;done;done;done
 
+8. Combined BLAST file used in accessory genome script
+# This command was used to run in The BlastOutput folder to combine the BLAST output in one file
+cat * >>../combinedBlast.txt
 
+9. List of the genomes used in the accessory genome script
+# This command was used to run in the L4folder to generate a list of the genomes
+ls > list.txt
 
 
 
