@@ -2,7 +2,7 @@
 
 1.To create the database:
 #We run this command in the L4 folder itself to create a gene sequence database for each genome in the relevant folder
-# We used for loop with variables and wildcard to increase the power of the shell and iterate through each genome folder to make the ffn database
+#We used for loop with variables and wildcard to increase the power of the shell and iterate through each genome folder to make the ffn database
 for name in *;do cd $name;makeblastdb -in ${name}.ffn -out ${name}_genes -title ${name} -dbtype nucl; mkdir ${name}_genesDB;mv ${name}_genes* ${name}_genesDB; cd ..;done
 
 2.To make BlASTn
@@ -25,7 +25,6 @@ for name in *;do cd $name;makeblastdb -in ${name}.fna -out ${name}_fna -title ${
 6.To Blast the not found files with fna Database  
 #We used this command to blast the not found files against the fnaDatabse genome 2
 blastn -query CHIN_F1_CHIN_F1_notFound.fasta -db /home/aureliana/Documents/Project/Database_fna/CHIN_F1_fnaDB/CHIN_F1_fna -out ../outputs_blastfna/CHIN_F1_CHIN_F1.txt -outfmt 6 -evalue 1e-30 -perc_identity 95
-
 
 7.To find either pseudogene and deleted in genome 2
 # This command is used to check every single content (line by line) of the not found folder (using cat command) against the blastfna output to find (using grep command) pseudogenes and deleted. To run this command, first, we created a temporary folder called "temp", where we copied all the files from the not found folder and Blastfn output. We sent the output to pseudogenes folder and deleted folder using ../
